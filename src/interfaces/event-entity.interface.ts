@@ -1,10 +1,12 @@
+import { EventStatus } from "../enums/event.enums";
+
 export interface EventEntity {
   name: string,
-  status: string,
+  status: EventStatus,
   price: number,
   started_at: Date,
   finished_at: Date,
-  quantity?: number,
   isActive: boolean,
-  created_by: string 
+  created_by: string, 
+  quantity?: number
 }

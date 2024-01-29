@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
+import { EventStatus } from "../enums/event.enums";
 
 const eventSchema = new mongoose.Schema({
   name: { type: String , required: true },
-  status: { type: String , required: true },
+  status: { type: String,
+    enum: EventStatus, required: true },
   created_by: { type: String , required: true },
   price: { type: Number , required: true },
   quantity: { type: Number , required: false },
