@@ -1,6 +1,7 @@
 import { EventStatus } from "../enums/event.enums";
 
 export interface EventEntity {
+  id?: string;
   name: string,
   status: EventStatus,
   price: number,

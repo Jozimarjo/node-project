@@ -2,9 +2,11 @@ import { EventStatus } from "../enums/event.enums";
 import { EventDTO } from "../dtos/eventDto.interface";
 import { EventEntity } from "../interfaces/event-entity.interface";
 import { EventModel } from "../schemas/event.schemas";
+import { Validators } from "../controllers/validators/validator.interface";
+import { EventRepository } from "../repositories/event.repository";
 
 export class EventService{
-
+  constructor(private validator: Validators, private repository: EventRepository){}
   async save(data: EventDTO){
     const eventToSave: EventEntity = {
       name: data.name,
@@ -17,15 +19,9 @@ export class EventService{
       quantity: data.quantity
     }
 
-    // Viola o Solid
-    if(eventToSave.started_at > eventToSave.finished_at){
-      throw new Error('The start date cannot be later than the end date');
-    }
+    this.validator.validate(eventToSave);
 
-
-
-    const modelMongoDb = new EventModel(eventToSave);
-    const result = await modelMongoDb.save();
+    const result = this.repository.save(eventToSave)
     return result;
   }
 }

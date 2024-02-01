@@ -5,7 +5,7 @@ import { Validators } from './validators/validator.interface';
 import { badRequest } from '../utils/http.utils';
 
 export class EventController{
-  constructor(private validator: Validators){}
+  constructor(private validator: Validators, private service: EventService){}
   async save (request:Request, response: Response){
     const body = request.body
     const formatData: EventEntity = body;
@@ -17,8 +17,7 @@ export class EventController{
     }
 
     try {
-      const service = new EventService()
-      const result = await service.save(formatData);
+      const result = await this.service.save(formatData);
       response.send(result);
     } catch (error) {
       return response.status(500).send({

@@ -1,3 +1,5 @@
+import { EventEntity } from "../../interfaces/event-entity.interface";
+
 export interface Validators{
-  validate(data: any): Error | void;
+  validate(data: EventEntity): Error | void;
 }

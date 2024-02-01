@@ -5,6 +5,9 @@ import { RequiredFieldValidator } from '../controllers/validators/required-field
 import { Validators } from '../controllers/validators/validator.interface'
 import { getEventFields } from '../dtos/eventDto.interface'
 import { FieldSizeValidator } from '../controllers/validators/field-size.validator'
+import { EventService } from '../services/event.service'
+import { EventServiceValidator } from '../controllers/validators/services/event-service.validator'
+import { EventRepository } from '../repositories/event.repository'
 export default (app: Express)=>{
   const router = Router()
   
@@ -20,8 +23,10 @@ export default (app: Express)=>{
     const fieldValidator = new FieldSizeValidator('price', 0);
     validators.push(fieldValidator)
     const validator = new CompositeValidators(validators)
-
-    return new EventController(validator).save(request,response)
+    const eventValidator = new EventServiceValidator()
+    const repository = new EventRepository();
+    const service = new EventService(eventValidator, repository);
+    return new EventController(validator, service).save(request,response)
   })
 
    app.use('/event',router)
